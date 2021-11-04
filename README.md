@@ -1,2 +1,2 @@
 # Python-and-R-For-DS
-Python and R for data science project work repository
+Python and R for Data Science course project work repository
