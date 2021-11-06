@@ -18,14 +18,10 @@ for i in range(1,101):
     #convert the response object to a dictionary
     dictRes = res.json()
     
-    #so for each key-value pair in dictRes, iterate through the dictionary keys
-    for dictionary in dictRes:
-        #check to see if the current dictionary key is the one that contains the artworks data
-        if  dictionary == "data":
-            #for each key-value pair in the data dictionary (the data dictionary is the associated value of the "data" key)
-            for eachItem in dictRes.get(dictionary):
-                #add the dictionary to the list we defined above
-                listOfArtworks.append(eachItem)
+    #for each key-value pair in the data dictionary (the data dictionary is the associated value of the "data" key)
+    for eachItem in dictRes.get("data"):
+        #add the dictionary to the list we defined above
+        listOfArtworks.append(eachItem)
 
     print("Finished with page: " + str(i))
     
