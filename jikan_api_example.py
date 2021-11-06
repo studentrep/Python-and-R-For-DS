@@ -25,14 +25,10 @@ listOfEpisodes = []
 #dictRes is a dictionary containing several key-value pairs
 #We need to navigate to the key-value pair that contains (as its value) key-value pairs consisting of each episode and its associated information
 
-#so for each key-value pair in dictRes, iterate through the dictionary keys
-for dictionary in dictRes:
-    #check to see if the current dictionary key is the one that contains the episodes
-    if  dictionary == "episodes":
-        #for each key-value pair in the episodes dictionary (the episodes dictionary is the associated value of the "episodes" key)
-        for eachItem in dictRes.get(dictionary):
-            #add the key-value pair to the list we defined above
-            listOfEpisodes.append(eachItem)
+#for each key-value pair in the episodes dictionary (the episodes dictionary is the associated value of the "episodes" key)
+for eachItem in dictRes.get("episodes"):
+        #add the key-value pair to the list we defined above
+        listOfEpisodes.append(eachItem)
 
     
 #convert the list of dictionaries to a dataframe        
