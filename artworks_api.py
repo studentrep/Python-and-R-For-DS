@@ -5,6 +5,7 @@
 import requests
 import json
 import pandas as pd
+from openpyxl.workbook import workbook
 
 #will eventually hold a list of dictionaries
 #each dictionary in the list will represent an artwork and its associated information
@@ -17,28 +18,38 @@ for i in range(1,101):
 
     #convert the response object to a dictionary
     dictRes = res.json()
-    
-    #for each key-value pair in the data dictionary (the data dictionary is the associated value of the "data" key)
+
+    #The dictionary response object contains several key-value pairs
+    #the key-value pair of interest to us is the one having the key "data"
+    #The value of this key contains a list of dictionaries, each dictionary representing one artwork observation
+
+    #We need to iterate through each dictionary item in the list and add each to a new list
+    #The reason we do this is because some key-value items in each dictionary have a dictionary as their value
+    #In order to access the values in this nested dictionary, we need to add the key-value pairs of these nested dictionaries to
+    #each dictionary item (each representing one artwork observation) in the original list
     for eachItem in dictRes.get("data"):
-        #if the thumbnail dictionary exists
+        #in each dictionary item (eachItem), there is a key "thumbnail" that has a dictionary as its value
+        #first, we check to see if the thumbnail dictionary exists
         if eachItem["thumbnail"] != None:
-            #for each key in the thumbnail dictionary
+            #if it exists, for each key in the thumbnail dictionary
             for thumbnailItemKey in eachItem.get("thumbnail"):
-                #add each key-value pair in the thumbnail dictionary to the main data dictionary
+                #add each key-value pair in the thumbnail dictionary to the main data dictionary (eachItem)
                 eachItem["thumbnail." + thumbnailItemKey] = eachItem.get("thumbnail").get((thumbnailItemKey))
             #remove the thumbnail dictionary from the main dictionary because it's repetitive information
             eachItem.pop("thumbnail")
-        #if the color dictionary exists
+        #in each dictionary item (eachItem), there is a key "color" that has a dictionary as its value
+        #first, we check to see if the color dictionary exists
         if eachItem["color"] != None:
-            #for each key in the color dictionary
+            #if it exists, for each key in the color dictionary
             for colorItemKey in eachItem.get("color"):
-                #add each key-value pair in the color dictionary to the main data dictionary
+                #add each key-value pair in the color dictionary to the main data dictionary (eachItem)
                 eachItem["color." + colorItemKey] = eachItem.get("color").get((colorItemKey))
             #remove the color dictionary from the main dictionary because it's repetitive information
             eachItem.pop("color")
-        #add the dictionary to the list we defined above
+        #add the main dictionary (eachitem) to the list we defined above
         listOfArtworks.append(eachItem)
 
+    #to provide updates on how the code is progressing
     print("Finished with page: " + str(i))
     
 #convert the list of dictionaries to a dataframe        
@@ -50,4 +61,5 @@ final_dataFrame= arts_dataFrame[["id", "title", "thumbnail.alt_text", "date_star
 #convert the dataframe to a csv
 final_dataFrame.to_csv("artworks.csv")
 
+#convert the dataframe to an xlsx
 final_dataFrame.to_excel("artworks.xlsx")
