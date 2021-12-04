@@ -76,6 +76,8 @@ final_dataFrame.to_excel("artworks.xlsx")
 import matplotlib.pyplot as plt
 import numpy as np
 
+#Create new dataframe for all the types of classifications and count for the classifications the frequency
 Clasdf = final_dataFrame["classification_title"]
 Clascount = Clasdf.value_counts()
+#Plot the first 5, most frequent classifications
 plt.plot(Clascount[:5])
