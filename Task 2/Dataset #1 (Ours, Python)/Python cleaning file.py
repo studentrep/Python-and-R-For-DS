@@ -64,6 +64,13 @@ figclass.update_traces(textposition='inside')
 figclass.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 figclass.show()
 
+#Another treemap that reflects frequency by classification title
+#again, you can keep this or toss it, either works for me
+fig = px.treemap(byClassification, path= ["classification_title"], values='count',branchvalues = "total")
+fig.update_traces(root_color="lightgrey")
+fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+fig.show()
+
 #Create new column in our dataframe to see how long it took to create each art piece
 #this helps to create a visual that has time_to_create on the y axis, start_date on the x axis
 #and maybe we can do a scatter plot (? I think it is called) where each point is color-coded by classification_type
@@ -100,12 +107,41 @@ fig.show()
 #This is just to check how many observations there are that meet the above condition
 print(len(modernArt["department_title"]))
 
-#Another treemap that reflects frequency by classification title
-#again, you can keep this or toss it, either works for me
-fig = px.treemap(byClassification, path= ["classification_title"], values='count',branchvalues = "total")
-fig.update_traces(root_color="lightgrey")
-fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-fig.show()
+
+
+#To be able to do the next scatter plot we need to install a new package called seaborn
+import seaborn as sns
+%matplotlib inline
+
+#Check which countries have a significant amount of art pieces, label the insignifcant countries as other countries
+#Otherwhise we would have too many countries in the scatter plot; which would make it too chaotic
+df["place_of_origin"].value_counts()
+df.loc[df["place_of_origin"] == "Greece","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Sweden","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Colombia","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Mozambique","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Switzerland","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Russia","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Egypt","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Mali","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Finland","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Jersey","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Ireland","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Guatemala","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Morocco","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "England","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Belgium","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Germany","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "Netherlands","place_of_origin"] = "Other countries"
+df.loc[df["place_of_origin"] == "China","place_of_origin"] = "Other country"
+df["place_of_origin"][:30]
+
+#We want to set the size bigger, to be able to see more details 
+sns.set(rc={'figure.figsize':(14,10)})
+#Plot the data with on the x-axis the start of the art piece, y-axis the length it took to complete, and in color you can see the most important countries in terms of amount of art pieces delivered
+g =sns.scatterplot(x="date_start", y="time_to_create",
+              hue="place_of_origin",
+              data=df);
 
 #Please keep these here for now
 #fig = px.treemap(new["place_of_origin"])
