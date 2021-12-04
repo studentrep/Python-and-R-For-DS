@@ -81,3 +81,10 @@ Clasdf = final_dataFrame["classification_title"]
 Clascount = Clasdf.value_counts()
 #Plot the first 5, most frequent classifications
 plt.plot(Clascount[:5])
+
+#Create new dataframe to see how long it took for each artpiece to create it
+Lengthdf = final_dataFrame["date_end"] - final_dataFrame["date_start"] 
+Lengthcount = Lengthdf.value_counts()
+plt.plot(Lengthcount[:10])
+plt.xlabel("Amount of years it took to make the art piece")
+plt.ylabel("Amount of art pieces")
