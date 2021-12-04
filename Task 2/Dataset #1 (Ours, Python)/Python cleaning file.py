@@ -50,6 +50,13 @@ locationGrouping = locationGrouping.rename({'id': 'count'}, axis='columns')
 byClassification = df.groupby('classification_title', as_index=False)['id'].count()
 byClassification = byClassification.rename({'id': 'count'}, axis='columns')
 
+#Shows a Pie chart for the different classifications 
+figclass = px.pie(byClassification, values='count', names='classification_title', title='Different classifications')
+figclass.update_traces(textposition='inside')
+figclass.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
+figclass.show()
+
+
 #Create new column in our dataframe to see how long it took to create each art piece
 #this helps to create a visual that has time_to_create on the y axis, start_date on the x axis
 #and maybe we can do a scatter plot (? I think it is called) where each point is color-coded by classification_type
