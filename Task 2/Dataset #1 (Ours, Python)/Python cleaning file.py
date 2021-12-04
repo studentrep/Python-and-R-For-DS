@@ -45,6 +45,14 @@ df['place_of_origin'] = df['place_of_origin'].str.replace('Paris|Vallauris','Fra
 locationGrouping = df.groupby('place_of_origin', as_index=False)['id'].count()
 locationGrouping = locationGrouping.rename({'id': 'count'}, axis='columns')
 
+#Generates a treemap that reflects the frequency of place_of_origin
+#You can keep it or do something else, I don't mind either way
+#If you keep it, can we add percentages to it?
+fig = px.treemap(locationGrouping, path= ["place_of_origin"], values='count',branchvalues = "total")
+fig.update_traces(root_color="lightgrey")
+fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+fig.show()
+
 #Group by classification and get the count (the number of each classification type) associated with each classification type
 #This can be used to see the frequency of each classification type
 byClassification = df.groupby('classification_title', as_index=False)['id'].count()
@@ -55,7 +63,6 @@ figclass = px.pie(byClassification, values='count', names='classification_title'
 figclass.update_traces(textposition='inside')
 figclass.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 figclass.show()
-
 
 #Create new column in our dataframe to see how long it took to create each art piece
 #this helps to create a visual that has time_to_create on the y axis, start_date on the x axis
@@ -71,6 +78,12 @@ byArtist = byArtist.sort_values(by = 'count', ascending= False)
 #grab the top 10 artists ("top ten" meaning the top 10 artists who have the most artworks in the dataset)
 top10Artist = byArtist[0:10]
 
+#Bar chart of top 10 artist with the amount of art pieces in the dataset
+fig = px.bar(top10Artist, y='count', x='artist_title', text='count')
+fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
+fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide', title_text = "Top 10 artist with most artworks in dataset", xaxis_title = "Name of the artist", yaxis_title ="Amount of art pieces in dataset")
+fig.show()
+
 #See which countries are represented the most in the modern art department
 #Maybe a visualization can be created out of this
 
@@ -79,14 +92,6 @@ modernArt = df[df["department_title"] == "Modern Art"]
 
 #This is just to check how many observations there are that meet the above condition
 print(len(modernArt["department_title"]))
-
-#Generates a treemap that reflects the frequency of place_of_origin
-#You can keep it or do something else, I don't mind either way
-#If you keep it, can we add percentages to it?
-fig = px.treemap(locationGrouping, path= ["place_of_origin"], values='count',branchvalues = "total")
-fig.update_traces(root_color="lightgrey")
-fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-fig.show()
 
 #Another treemap that reflects frequency by classification title
 #again, you can keep this or toss it, either works for me
