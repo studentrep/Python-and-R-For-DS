@@ -82,6 +82,24 @@ Clascount = Clasdf.value_counts()
 #Plot the first 5, most frequent classifications
 plt.plot(Clascount[:5])
 
+#Create new dataframe for all the types of origins and count for the place of origin the frequency
+Origin = final_dataFrame["place_of_origin"]
+Origincount = Origin.value_counts()
+#Plot the first 5, most frequent classifications
+plt.plot(Origincount[:5])
+
+#Create new dataframe for all the types of departmens and count for the departmens the frequency
+Departmentdf = final_dataFrame["department_title"]
+Departmentcount = Departmentdf.value_counts()
+#Plot the first 5, most frequent classifications
+plt.plot(Departmentcount[:5])
+
+#Create new dataframe for all the types of artists and count for the artists the frequency
+Artistdf = final_dataFrame["artist_display"]
+Artistcount = Artistdf.value_counts()
+#Plot the first 5, most frequent classifications
+plt.plot(Artistcount[:5])
+
 #Create new dataframe to see how long it took for each artpiece to create it
 Lengthdf = final_dataFrame["date_end"] - final_dataFrame["date_start"] 
 Lengthcount = Lengthdf.value_counts()
