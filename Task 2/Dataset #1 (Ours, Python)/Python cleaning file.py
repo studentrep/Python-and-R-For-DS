@@ -84,6 +84,9 @@ fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
 fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide', title_text = "Top 10 artist with most artworks in dataset", xaxis_title = "Name of the artist", yaxis_title ="Amount of art pieces in dataset")
 fig.show()
 
+#We filter the dataset and include only those observations that have "modern art" as the value in their department_title column
+modernArt = df[df["department_title"] == "Modern Art"]
+
 #See which countries are represented the most in the modern art department
 #Maybe a visualization can be created out of this
 #Countries represented in the modern art department
@@ -93,10 +96,6 @@ modernArtbycountry = modernArtbycountry.rename({'id': 'count'}, axis='columns')
 #Make a pie chart to represent the countries and their respective share of modernart
 fig = px.pie(modernArtbycountry, values='count', names='place_of_origin')
 fig.show()
-
-
-#We filter the dataset and include only those observations that have "modern art" as the value in their department_title column
-modernArt = df[df["department_title"] == "Modern Art"]
 
 #This is just to check how many observations there are that meet the above condition
 print(len(modernArt["department_title"]))
