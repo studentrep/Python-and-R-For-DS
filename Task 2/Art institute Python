@@ -56,7 +56,7 @@ for i in range(1,101):
 arts_dataFrame = pd.DataFrame(data=listOfArtworks)
 
 #make a more concise database with the columns that we perceive as important 
-final_dataFrame= arts_dataFrame[["id", "title", "thumbnail.alt_text", "date_start", "date_display", "artist_display", "place_of_origin", "dimensions", "medium_display", "credit_line", "department_title", "artist_title", "classification_title"]]
+final_dataFrame= arts_dataFrame[["id", "title", "thumbnail.alt_text", "date_start", "date_end", "date_display", "artist_display", "place_of_origin", "dimensions", "medium_display", "credit_line", "department_title", "artist_title", "classification_title"]]
 
 #convert the dataframe to a csv
 final_dataFrame.to_csv("artworks.csv")
