@@ -142,6 +142,10 @@ sns.set(rc={'figure.figsize':(14,10)})
 g =sns.scatterplot(x="date_start", y="time_to_create",
               hue="place_of_origin",
               data=df);
+#Set the scale because outliers bias the plot 
+g.set(ylim = (0,90))
+g.set(xlim = (1500,2020))
+
 
 #Please keep these here for now
 #fig = px.treemap(new["place_of_origin"])
