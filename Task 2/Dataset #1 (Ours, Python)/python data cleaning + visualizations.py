@@ -2,6 +2,10 @@
 #Art Institute of Chicago API
 #https://api.artic.edu/docs/#quick-start
 
+#!!!
+#Run the following line of code if you have issues using plotly in Google Colab
+#!pip install --upgrade plotly
+
 import requests
 import json
 import pandas as pd
