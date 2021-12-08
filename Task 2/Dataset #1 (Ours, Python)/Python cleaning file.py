@@ -16,7 +16,7 @@ import plotly.express as px
 #note: this is the csv file which includes the end date
 df = pd.read_csv('artworks.csv')
 
-#Cverview of variables in the dataset and each variable's data type
+#Overview of variables in the dataset and each variable's data type
 df.info()
 
 #Change the type of the id variable to string (called object in pandas)
@@ -28,7 +28,7 @@ missingno.bar(df)
 #Replace blank cells with nan value to indicate missing
 print(df.replace(r'^\s*$', np.nan, regex=True))
 
-#Grouping by painting place of origin
+###Grouping by painting place of origin
 
 #Some place_of_origin values are at the city level instead of at the country level
 #Here, I'm just cleaning up the place_of_origin column so that we can have all place of origin values at the country level
@@ -46,8 +46,6 @@ locationGrouping = df.groupby('place_of_origin', as_index=False)['id'].count()
 locationGrouping = locationGrouping.rename({'id': 'count'}, axis='columns')
 
 #Generates a treemap that reflects the frequency of place_of_origin
-#You can keep it or do something else, I don't mind either way
-#If you keep it, can we add percentages to it?
 fig = px.treemap(locationGrouping, path= ["place_of_origin"], values='count',branchvalues = "total")
 fig.update_traces(root_color="lightgrey")
 fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
@@ -58,23 +56,17 @@ fig.show()
 byClassification = df.groupby('classification_title', as_index=False)['id'].count()
 byClassification = byClassification.rename({'id': 'count'}, axis='columns')
 
-#Shows a Pie chart for the different classifications 
+#Shows a pie chart for the different classifications 
 figclass = px.pie(byClassification, values='count', names='classification_title', title='Different classifications')
 figclass.update_traces(textposition='inside')
 figclass.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
 figclass.show()
 
 #Another treemap that reflects frequency by classification title
-#again, you can keep this or toss it, either works for me
 fig = px.treemap(byClassification, path= ["classification_title"], values='count',branchvalues = "total")
 fig.update_traces(root_color="lightgrey")
 fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
 fig.show()
-
-#Create new column in our dataframe to see how long it took to create each art piece
-#this helps to create a visual that has time_to_create on the y axis, start_date on the x axis
-#and maybe we can do a scatter plot (? I think it is called) where each point is color-coded by classification_type
-df["time_to_create"] = df["date_end"] - df["date_start"] 
 
 #A dataframe that is grouped by artist
 byArtist = df.groupby('artist_title', as_index=False)['id'].count()
@@ -82,10 +74,10 @@ byArtist = byArtist.rename({'id': 'count'}, axis='columns')
 
 #Sort the above dataframe to get the top 10 artists 
 byArtist = byArtist.sort_values(by = 'count', ascending= False)
-#grab the top 10 artists ("top ten" meaning the top 10 artists who have the most artworks in the dataset)
+#Grab the top 10 artists ("top ten" meaning the top 10 artists who have the most artworks in the dataset)
 top10Artist = byArtist[0:10]
 
-#Bar chart of top 10 artist with the amount of art pieces in the dataset
+#Bar chart of top 10 artists (having the greatest # of art pieces in the dataset)
 fig = px.bar(top10Artist, y='count', x='artist_title', text='count')
 fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
 fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide', title_text = "Top 10 artist with most artworks in dataset", xaxis_title = "Name of the artist", yaxis_title ="Amount of art pieces in dataset")
@@ -107,14 +99,16 @@ fig.show()
 #This is just to check how many observations there are that meet the above condition
 print(len(modernArt["department_title"]))
 
-
+#Create new column in our dataframe to see how long it took to create each art piece
+#this helps to create a visual that has time_to_create on the y axis, start_date on the x axis
+df["time_to_create"] = df["date_end"] - df["date_start"] 
 
 #To be able to do the next scatter plot we need to install a new package called seaborn
 import seaborn as sns
 %matplotlib inline
 
 #Check which countries have a significant amount of art pieces, label the insignifcant countries as other countries
-#Otherwhise we would have too many countries in the scatter plot; which would make it too chaotic
+#Otherwise we would have too many countries in the scatter plot; which would make it too chaotic
 df["place_of_origin"].value_counts()
 df.loc[df["place_of_origin"] == "Greece","place_of_origin"] = "Other countries"
 df.loc[df["place_of_origin"] == "Sweden","place_of_origin"] = "Other countries"
@@ -138,10 +132,12 @@ df["place_of_origin"][:30]
 
 #We want to set the size bigger, to be able to see more details 
 sns.set(rc={'figure.figsize':(14,10)})
-#Plot the data with on the x-axis the start of the art piece, y-axis the length it took to complete, and in color you can see the most important countries in terms of amount of art pieces delivered
+#Plot the data with on the x-axis the start of the art piece, y-axis the length it took to complete, and in color you can see the
+#most important countries in terms of # of art pieces delivered
 g =sns.scatterplot(x="date_start", y="time_to_create",
               hue="place_of_origin",
               data=df);
+
 #Set the scale because outliers bias the plot 
 g.set(ylim = (0,90))
 g.set(xlim = (1500,2020))
