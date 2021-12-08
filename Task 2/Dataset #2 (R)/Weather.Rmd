@@ -1,0 +1,135 @@
+---
+title: "Python & R For Data Science: Project Task 2"
+output: pdf_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Dataset 2: Free Weather API
+
+We use the Weather dataset from https://github.com/CP050/Progetto-Luiss.git. In this dataset, there are 2352 observations of 9 variables: city, time, temperature, apparent.temperature, relative.humidity, precipitation, dewpoint, freeing.level, and pressure. There are 168 observations in each city, which is the 7 days hourly data from 2021-12-04 00:00 to 2021-12-10 23:00.
+
+First we import the weather database, the "Forecast_merged.csv" file.
+
+```{r weather, results = "hide"}
+weather <- read.csv("Forecast_merged.csv")
+View(weather)
+str(weather)
+summary(weather)
+```
+We then plot graphs with temperature in blue and apparent.temperature in red to see the range of temperature in 14 different cities.
+
+```{r temperature}
+ggplot(data = weather) +
+  geom_point(mapping = aes(x = city, y = temperature), color = "blue")  +
+  labs(y= "Temperature", x = "City") + theme(text = element_text(size= 5.6))
+ggplot(data = weather) +
+  geom_point(mapping = aes(x = city, y = apparent.temperature), color = "red") +
+  labs(y= "Temperature", x = "City") + theme(text = element_text(size= 5.6))
+```
+
+## Summarise the Variables by City
+
+We use group_by() and summarise() function to create a table with the average data of the variables by city. We plot a graph using the average temperature and the average apparent temperature with different colors representing different cities.
+
+```{r summarise}
+mean_city = weather %>%
+  group_by(city) %>%
+  summarise(
+    temp = mean(temperature, na.rm = TRUE),
+    aptemp = mean(apparent.temperature, na.rm = TRUE),
+    rehumid = mean(relative.humidity, na.rm = TRUE),
+    precipit = mean(precipitation, na.rm = TRUE),
+    dewpo = mean(dewpoint, na.rm = TRUE), 
+    freelv = mean(freeing.level, na.rm = TRUE), 
+    press = mean(pressure, na.rm = TRUE)
+  )
+print(mean_city)
+ggplot(data = mean_city) +
+  geom_point(mapping = aes(x = temp, y = aptemp, color = city)) +
+  labs(y= "Average Apparent Temperature", x = "Average Temperature")
+```
+\newpage
+
+## Time and Temperature Trend
+
+We plot the temperature by time, and we use facet_wrap() to create 14 graphs for all cities. 
+
+```{r Rome}
+ggplot(data = weather) +
+  geom_point(mapping = aes(x = time, y = temperature)) +
+  labs(y= "Temperature", x = "Time") +
+  facet_wrap(~ city, nrow = 4)
+```
+\newpage
+
+## Relative Humidity and Precipitation
+
+We find out that between 70% and 90%, the higher the relative humidity, the higher the precipitation. 
+
+```{r plot1, message = FALSE}
+ggplot(data = weather) +
+  geom_smooth(mapping = aes(x = relative.humidity, y = precipitation), se = FALSE) + 
+  labs(y= "Precipitation", x = "Relative Humidity")
+```
+\newpage
+
+## Temperature and Freezing Level Height
+
+The plot shows that below 17.5 degree, the higher the temperature, the greater the freezing level.
+
+```{r plot2, message = FALSE}
+ggplot(data = weather) +
+  geom_smooth(mapping = aes(x = temperature, y = freeing.level), se = FALSE) +
+  labs(y= "Freezing Level", x = "Temperature")
+```
+\newpage
+
+## Pressure, Dew Point, and Freezing Level Height
+
+We plot the pressure-dewpoint graph and the pressure-freeing.level graph for all 14 cities, and we decide to look into the data in Barcelona because it has the greatest range of dewpoint and freeing.level. From the Barcelona data, we know that between 920 and 980, the dew point and the freezing level height decrease when the pressure increases. This relationship reverses when the pressure is greater than 980.
+
+```{r Barcelona1, message = FALSE}
+ggplot(data = weather) +
+  geom_smooth(mapping = aes(x = pressure, y = dewpoint), se = FALSE) +
+  facet_wrap(~ city, nrow = 2) + theme(text = element_text(size = 8)) +
+  labs(y= "Dew point", x = "Pressure")
+```
+\newpage
+```{r Barcelona2, message = FALSE}
+ggplot(data = weather) +
+  geom_smooth(mapping = aes(x = pressure, y = freeing.level), se = FALSE) +
+  facet_wrap(~ city, nrow = 2) + theme(text = element_text(size = 8)) +
+  labs(y= "Freezing Level", x = "Pressure")
+```
+\newpage
+```{r Barcelona3, message = FALSE}
+Barcelona <- weather[weather$city == "Barcelona", ]
+ggplot(data = Barcelona) +
+  geom_smooth(mapping = aes(x = pressure, y = dewpoint), se = FALSE) +
+  labs(y= "Freezing Level", x = "Pressure")
+```
+\newpage
+```{r Barcelona4, message = FALSE}
+Barcelona <- weather[weather$city == "Barcelona", ]
+ggplot(data = Barcelona) +
+  geom_smooth(mapping = aes(x = pressure, y = freeing.level), se = FALSE)  +
+  labs(y= "Freezing Level", x = "Pressure")
+```
+\newpage
+
+## Relative Humidity and the Temperature Difference
+
+We add a new variable: tempdif = temperature - apparent.temperature. From the graph we know that, the higher the relative humidity, the smaller the difference in temperature and apparent temperature.
+
+```{r tempdif1, message = FALSE}
+weather2 = weather %>%
+  mutate(tempdif = temperature - apparent.temperature)
+ggplot(data = weather2, mapping = aes(x = relative.humidity, y = tempdif)) +
+  geom_point() +
+  geom_smooth(se = FALSE)  +
+  labs(y= "Temperature Difference", x = "Relative Humidity")
+```
