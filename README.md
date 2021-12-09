@@ -3,13 +3,13 @@ Python and R for Data Science course project work repository
 Tasks 1 & 2
 
 
-## TASK 1
+## Task 1
 
 Project chosen: Art Institute of Chicago API: https://api.artic.edu/docs/#introduction
 
 We access the /artworks listing endpoint in the API by visiting the following URL: https://api.artic.edu/api/v1/artworks, to see all the published artworks in the collection.
 
-## Procedure/Python Code Explanation
+### Procedure/Python Code Explanation
 
 To access the data, we first sent an API request. Next, we converted the response object that we received to a dictionary. 
 
@@ -19,19 +19,30 @@ Finally, we converted this list of dictionaries to a dataframe. Then, we created
 
 We selected 12 endpoints (columns) in the Artworks Collection data:
 
-title - The name of this resource
-\nthumbnail.alt_text - Alternate text for this work. 
-date_start - The year of the period of time associated with the creation of this work.
-date_display - Readable, free-text description of the period of time associated with the creation of this work. 
-artist_display - Readable description of the creator of this work. Includes artist names, nationality and lifespan dates.
-place_of_origin - The location where the creation, design, or production of the work took place, or the original location of the work.
-dimensions - The size, shape, scale, and dimensions of the work.
-medium_display - The substances or materials used in the creation of a work.
-credit_line - Brief statement indicating how the work came into the collection.
-department_title - Name of the curatorial department that this work belongs to.
-artist_title - Name of the preferred artist/culture associated with this work.
-classification_title - The name of the preferred classification term for this work.
+**title** - The name of this resource
 
-## TASK 2
+**thumbnail.alt_text** - Alternate text for this work.
+ 
+**date_start** - The year of the period of time associated with the creation of this work.
+
+**date_display** - Readable, free-text description of the period of time associated with the creation of this work. 
+
+**artist_display** - Readable description of the creator of this work. Includes artist names, nationality and lifespan dates.
+
+**place_of_origin** - The location where the creation, design, or production of the work took place, or the original location of the work.
+
+**dimensions** - The size, shape, scale, and dimensions of the work.
+
+medium_display** - The substances or materials used in the creation of a work.
+
+**credit_line** - Brief statement indicating how the work came into the collection.
+
+**department_title** - Name of the curatorial department that this work belongs to.
+
+**artist_title** - Name of the preferred artist/culture associated with this work.
+
+**classification_title** - The name of the preferred classification term for this work.
+
+## Task 2
 
 Please reference the individual folders (corresponding to dataset #1 and dataset #2) of Task 2 for a detailed explanation of the contents of each folder. 
