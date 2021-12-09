@@ -1,4 +1,4 @@
-#CODE OF PREVIOUS TASK1
+#CODE OF PREVIOUS TASK 1
 #Art Institute of Chicago API
 #https://api.artic.edu/docs/#quick-start
 
@@ -63,46 +63,3 @@ final_dataFrame.to_csv("artworks.csv")
 
 #convert the dataframe to an xlsx
 final_dataFrame.to_excel("artworks.xlsx")
-
-
-
-
-#CODE TASK2 
-
-#Mathieu 
-
-#Visualization 
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-#Create new dataframe for all the types of classifications and count for the classifications the frequency
-Clasdf = final_dataFrame["classification_title"]
-Clascount = Clasdf.value_counts()
-#Plot the first 5, most frequent classifications
-plt.plot(Clascount[:5])
-
-#Create new dataframe for all the types of origins and count for the place of origin the frequency
-Origin = final_dataFrame["place_of_origin"]
-Origincount = Origin.value_counts()
-#Plot the first 5, most frequent classifications
-plt.plot(Origincount[:5])
-
-#Create new dataframe for all the types of departmens and count for the departmens the frequency
-Departmentdf = final_dataFrame["department_title"]
-Departmentcount = Departmentdf.value_counts()
-#Plot the first 5, most frequent classifications
-plt.plot(Departmentcount[:5])
-
-#Create new dataframe for all the types of artists and count for the artists the frequency
-Artistdf = final_dataFrame["artist_display"]
-Artistcount = Artistdf.value_counts()
-#Plot the first 5, most frequent classifications
-plt.plot(Artistcount[:5])
-
-#Create new dataframe to see how long it took for each artpiece to create it
-Lengthdf = final_dataFrame["date_end"] - final_dataFrame["date_start"] 
-Lengthcount = Lengthdf.value_counts()
-plt.plot(Lengthcount[:10])
-plt.xlabel("Amount of years it took to make the art piece")
-plt.ylabel("Amount of art pieces")
