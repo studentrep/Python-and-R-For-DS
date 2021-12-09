@@ -1,11 +1,13 @@
-# Python-and-R-For-DS
+# Python and R for Data Science
 Python and R for Data Science course project work repository
-Tasks 1 & 2
+Tasks 1 & 2.
 
 
 ## Task 1
 
-Project chosen: Art Institute of Chicago API: https://api.artic.edu/docs/#introduction
+Project chosen: Art Institute of Chicago 
+
+API: https://api.artic.edu/docs/#introduction
 
 We access the /artworks listing endpoint in the API by visiting the following URL: https://api.artic.edu/api/v1/artworks, to see all the published artworks in the collection.
 
@@ -33,7 +35,7 @@ We selected 12 endpoints (columns) in the Artworks Collection data:
 
 **dimensions** - The size, shape, scale, and dimensions of the work.
 
-medium_display** - The substances or materials used in the creation of a work.
+**medium_display** - The substances or materials used in the creation of a work.
 
 **credit_line** - Brief statement indicating how the work came into the collection.
 
